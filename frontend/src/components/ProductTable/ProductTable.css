@@ -47,3 +47,7 @@
 .product-table .btn-delete:hover {
     color: #b91c1c;
 }
+
+.product-table tr.low-stock {
+    background-color: #fff3cd; /* yellowish for low stock */
+}

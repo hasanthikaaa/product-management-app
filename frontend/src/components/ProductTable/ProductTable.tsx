@@ -22,7 +22,12 @@ const ProductTable = ({ products, onEdit, onDelete }: Props) => {
         </thead>
         <tbody>
           {products.map((p) => (
-            <tr key={p.productId}>
+            <tr
+              key={p.productId}
+              className={
+                p.quantity !== undefined && p.quantity < 3 ? "low-stock" : ""
+              }
+            >
               <td>{p.name}</td>
               <td>{p.category}</td>
               <td>{p.description}</td>
