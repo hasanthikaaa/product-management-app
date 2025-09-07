@@ -19,17 +19,24 @@ class UpdateProduct {
       const typedKey = key as keyof IUpdateProductInput;
       const value = input[typedKey];
       if (value !== undefined) {
-        updateExpression += ` ${typedKey} = :${typedKey},`;
+        if (typedKey === "name") {
+          updateExpression += ` #${typedKey} = :${typedKey},`;
+        } else {
+          updateExpression += ` ${typedKey} = :${typedKey},`;
+        }
         expressionAttributeValues[`:${typedKey}`] = value;
       }
     }
 
-    updateExpression.concat("updatedAt=:updatedAt");
-    expressionAttributeValues["updatedAt"] = new Date().toLocaleDateString();
+    updateExpression = `${updateExpression} updatedAt=:updatedAt`;
+    expressionAttributeValues[":updatedAt"] = new Date().toISOString();
 
     return {
       updateExpression,
       expressionAttributeValues,
+      expressionAttributeName: {
+        "#name": "name",
+      },
     };
   }
 
@@ -47,6 +54,7 @@ class UpdateProduct {
         Key: keys,
         UpdateExpression: attributes?.updateExpression,
         ExpressionAttributeValues: attributes?.expressionAttributeValues,
+        ExpressionAttributeNames: attributes?.expressionAttributeName,
         ReturnValues: ReturnValue.UPDATED_NEW,
         ConditionExpression: "attribute_exists(pk) AND attribute_exists(sk)",
       };
