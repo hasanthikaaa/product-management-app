@@ -8,4 +8,5 @@ export interface IProduct {
 
 export interface IDbProduct extends IProduct {
   productId: string;
+  category: string;
 }

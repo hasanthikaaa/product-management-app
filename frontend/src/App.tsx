@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { IDbProduct, IProduct } from "./utils/types";
+import type { IProduct } from "./utils/types";
 import ProductTable from "./components/ProductTable/ProductTable.tsx";
 import Toolbar from "./components/Toolbar/ToolBar.tsx";
 import NotificationPanel from "./components/NotificationPanel/NotificationPanel.tsx";
@@ -10,8 +10,6 @@ import "./App.css";
 import useProduct from "./hooks/useProduct.ts";
 
 function App() {
-  const [products, setProducts] = useState<IDbProduct[]>([]);
-
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<IProduct | null>(null);
@@ -32,7 +30,7 @@ function App() {
     setShowDeleteModal(true);
   };
 
-  const { loading, saveProduct } = useProduct();
+  const { loading, saveProduct, products } = useProduct();
 
   const handleSave = async (product: IProduct) => {
     console.log("product", product);
@@ -40,7 +38,6 @@ function App() {
     if (productId) {
       setToaster(true);
       setShowModal(false);
-      setProducts([]);
     }
   };
 

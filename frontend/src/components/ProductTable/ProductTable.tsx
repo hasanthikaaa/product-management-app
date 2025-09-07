@@ -1,9 +1,9 @@
-import type { IProduct } from "../../utils/types";
+import type { IDbProduct } from "../../utils/types";
 import "./ProductTable.css";
 type Props = {
-  products: IProduct[];
-  onEdit: (product: IProduct) => void;
-  onDelete: (product: IProduct) => void;
+  products: IDbProduct[];
+  onEdit: (product: IDbProduct) => void;
+  onDelete: (product: IDbProduct) => void;
 };
 
 const ProductTable = ({ products, onEdit, onDelete }: Props) => {
@@ -12,9 +12,8 @@ const ProductTable = ({ products, onEdit, onDelete }: Props) => {
       <table className="product-table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Category</th>
             <th>Name</th>
+            <th>Category</th>
             <th>Quantity</th>
             <th>Price</th>
             <th>Actions</th>
@@ -23,9 +22,8 @@ const ProductTable = ({ products, onEdit, onDelete }: Props) => {
         <tbody>
           {products.map((p) => (
             <tr key={p.productId}>
-              <td>{p.productId}</td>
-              <td>{p.category}</td>
               <td>{p.name}</td>
+              <td>{p.category}</td>
               <td>{p.quantity}</td>
               <td>${p.price}</td>
               <td>
