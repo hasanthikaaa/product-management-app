@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { IProduct } from "../../utils/types";
+import "./ProductModal.css";
 
 type Props = {
   product: IProduct | null;
@@ -13,47 +14,44 @@ const ProductModal = ({ product, onClose, onSave }: Props) => {
   );
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-xl w-96">
-        <h2 className="text-lg font-bold mb-4">
+    <div className="modal-overlay">
+      <div className="modal-container">
+        <h2 className="modal-title">
           {product ? "Edit Product" : "Add Product"}
         </h2>
-        <div className="flex flex-col gap-3">
+        <div className="modal-form">
           <input
             placeholder="Category"
             value={form.category}
             onChange={(e) => setForm({ ...form, category: e.target.value })}
-            className="border p-2 rounded"
+            className="modal-input"
           />
           <input
             placeholder="Name"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
-            className="border p-2 rounded"
+            className="modal-input"
           />
           <input
             type="number"
             placeholder="Quantity"
             value={form.quantity}
             onChange={(e) => setForm({ ...form, quantity: +e.target.value })}
-            className="border p-2 rounded"
+            className="modal-input"
           />
           <input
             type="number"
             placeholder="Price"
             value={form.price}
             onChange={(e) => setForm({ ...form, price: +e.target.value })}
-            className="border p-2 rounded"
+            className="modal-input"
           />
         </div>
-        <div className="flex justify-end gap-3 mt-4">
-          <button onClick={onClose} className="px-3 py-1 border rounded">
+        <div className="modal-actions">
+          <button onClick={onClose} className="btn-cancel">
             Cancel
           </button>
-          <button
-            onClick={() => onSave(form)}
-            className="px-3 py-1 bg-blue-600 text-white rounded"
-          >
+          <button onClick={() => onSave(form)} className="btn-save">
             Save
           </button>
         </div>

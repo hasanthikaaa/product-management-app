@@ -1,0 +1,39 @@
+.toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.toolbar button {
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.btn-add {
+    background-color: #2563eb;
+}
+
+.btn-add:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-export {
+    background-color: #16a34a;
+}
+
+.btn-export:hover {
+    background-color: #15803d;
+}
+
+.btn-import {
+    background-color: #7c3aed;
+}
+
+.btn-import:hover {
+    background-color: #6b21a8;
+}

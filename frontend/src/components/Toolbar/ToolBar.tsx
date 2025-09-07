@@ -1,22 +1,17 @@
+import "./ToolBar.css";
+
 type Props = {
   onAdd: () => void;
 };
 
 const Toolbar = ({ onAdd }: Props) => {
   return (
-    <div className="flex gap-3">
-      <button
-        onClick={onAdd}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg"
-      >
+    <div className="toolbar">
+      <button onClick={onAdd} className="btn-add">
         Add Product
       </button>
-      <button className="px-4 py-2 bg-green-600 text-white rounded-lg">
-        Export CSV
-      </button>
-      <button className="px-4 py-2 bg-purple-600 text-white rounded-lg">
-        Import CSV
-      </button>
+      <button className="btn-export">Export CSV</button>
+      <button className="btn-import">Import CSV</button>
     </div>
   );
 };

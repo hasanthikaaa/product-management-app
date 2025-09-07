@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./Toaster.css";
 
 const Toaster = () => {
   const [messages, setMessages] = useState<
@@ -12,15 +13,11 @@ const Toaster = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-4 right-4 space-y-2">
+    <div className="toaster-container">
       {messages.map((msg, idx) => (
         <div
           key={idx}
-          className={`px-4 py-2 rounded shadow ${
-            msg.type === "success"
-              ? "bg-green-600 text-white"
-              : "bg-red-600 text-white"
-          }`}
+          className={`toaster-message ${msg.type === "success" ? "toaster-success" : "toaster-error"}`}
         >
           {msg.text}
         </div>

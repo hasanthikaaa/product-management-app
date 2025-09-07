@@ -52,34 +52,42 @@ function App() {
       </div>
 
       {showModal && (
-        <ProductModal
-          product={editingProduct}
-          onClose={() => setShowModal(false)}
-          onSave={(p) => {
-            setProducts((prev) => {
-              if (editingProduct) {
-                return prev.map((item) =>
-                  item.productId === p.productId ? p : item,
-                );
-              }
-              return [...prev, { ...p, productId: `p${Date.now()}` }];
-            });
-            setShowModal(false);
-          }}
-        />
+        <div className="modal-overlay">
+          <div className="modal-container">
+            <ProductModal
+              product={editingProduct}
+              onClose={() => setShowModal(false)}
+              onSave={(p) => {
+                setProducts((prev) => {
+                  if (editingProduct) {
+                    return prev.map((item) =>
+                      item.productId === p.productId ? p : item,
+                    );
+                  }
+                  return [...prev, { ...p, productId: `p${Date.now()}` }];
+                });
+                setShowModal(false);
+              }}
+            />
+          </div>
+        </div>
       )}
 
       {showDeleteModal && editingProduct && (
-        <DeleteModal
-          product={editingProduct}
-          onClose={() => setShowDeleteModal(false)}
-          onConfirm={() => {
-            setProducts((prev) =>
-              prev.filter((p) => p.productId !== editingProduct.productId),
-            );
-            setShowDeleteModal(false);
-          }}
-        />
+        <div className="modal-overlay">
+          <div className="modal-container">
+            <DeleteModal
+              product={editingProduct}
+              onClose={() => setShowDeleteModal(false)}
+              onConfirm={() => {
+                setProducts((prev) =>
+                  prev.filter((p) => p.productId !== editingProduct.productId),
+                );
+                setShowDeleteModal(false);
+              }}
+            />
+          </div>
+        </div>
       )}
 
       <Toaster />

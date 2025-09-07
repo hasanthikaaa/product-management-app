@@ -1,0 +1,61 @@
+.delete-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.delete-modal-container {
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 16px;
+    width: 384px;
+    max-width: 90%;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    z-index: 1001;
+}
+
+.delete-modal-title {
+    font-size: 1.125rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.delete-modal-text {
+    font-size: 1rem;
+    margin-bottom: 16px;
+}
+
+.delete-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.delete-modal-cancel {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.delete-modal-cancel:hover {
+    background-color: #f3f4f6;
+}
+
+.delete-modal-delete {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background-color: #dc2626;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-modal-delete:hover {
+    background-color: #b91c1c;
+}

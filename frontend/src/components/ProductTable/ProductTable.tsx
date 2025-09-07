@@ -1,5 +1,5 @@
 import type { IProduct } from "../../utils/types";
-
+import "./ProductTable.css";
 type Props = {
   products: IProduct[];
   onEdit: (product: IProduct) => void;
@@ -8,43 +8,39 @@ type Props = {
 
 const ProductTable = ({ products, onEdit, onDelete }: Props) => {
   return (
-    <table className="w-full border border-gray-200 shadow bg-white rounded-xl">
-      <thead className="bg-gray-100">
-        <tr>
-          <th className="p-2">ID</th>
-          <th className="p-2">Category</th>
-          <th className="p-2">Name</th>
-          <th className="p-2">Quantity</th>
-          <th className="p-2">Price</th>
-          <th className="p-2">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {products.map((p) => (
-          <tr key={p.productId} className="border-t">
-            <td className="p-2">{p.productId}</td>
-            <td className="p-2">{p.category}</td>
-            <td className="p-2">{p.name}</td>
-            <td className="p-2">{p.quantity}</td>
-            <td className="p-2">${p.price}</td>
-            <td className="p-2">
-              <button
-                onClick={() => onEdit(p)}
-                className="text-blue-600 hover:underline mr-2"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => onDelete(p)}
-                className="text-red-600 hover:underline"
-              >
-                Delete
-              </button>
-            </td>
+    <div className="table-wrapper">
+      <table className="product-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Category</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Actions</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {products.map((p) => (
+            <tr key={p.productId}>
+              <td>{p.productId}</td>
+              <td>{p.category}</td>
+              <td>{p.name}</td>
+              <td>{p.quantity}</td>
+              <td>${p.price}</td>
+              <td>
+                <button className="btn-edit" onClick={() => onEdit(p)}>
+                  Edit
+                </button>
+                <button className="btn-delete" onClick={() => onDelete(p)}>
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
