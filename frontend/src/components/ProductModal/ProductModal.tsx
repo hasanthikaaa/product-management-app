@@ -1,18 +1,20 @@
-import { useState } from "react";
-import type { IProduct } from "../../utils/types";
+import { useEffect, useState } from "react";
+import type { IDbProduct } from "../../utils/types";
 import "./ProductModal.css";
 import { mockCategories } from "../../utils/data/mock-data.ts";
 
 type Props = {
-  product: IProduct | null;
+  product: IDbProduct | null;
   onClose: () => void;
-  onSave: (product: IProduct) => void;
+  onSave: (product: IDbProduct) => void;
   loading?: boolean;
 };
 
 const ProductModal = ({ product, onClose, onSave, loading }: Props) => {
-  const [form, setForm] = useState<IProduct>(
+  const [form, setForm] = useState<IDbProduct>(
     product ?? {
+      productId: "",
+      category: "",
       categoryId: "",
       name: "",
       description: "",
@@ -21,6 +23,9 @@ const ProductModal = ({ product, onClose, onSave, loading }: Props) => {
     },
   );
 
+  useEffect(() => {
+    console.log("product", product);
+  }, []);
   return (
     <div className="modal-overlay">
       <div className="modal-container">
@@ -81,7 +86,13 @@ const ProductModal = ({ product, onClose, onSave, loading }: Props) => {
             className="btn-save"
             disabled={loading}
           >
-            {loading ? <span className="spinner">.</span> : "Save"}
+            {loading ? (
+              <span className="spinner">...</span>
+            ) : product ? (
+              "Update"
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </div>

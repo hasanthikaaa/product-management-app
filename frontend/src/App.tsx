@@ -1,5 +1,5 @@
-import { useState } from "react";
-import type { IProduct } from "./utils/types";
+import { useEffect, useState } from "react";
+import type { IDbProduct } from "./utils/types";
 import ProductTable from "./components/ProductTable/ProductTable.tsx";
 import Toolbar from "./components/Toolbar/ToolBar.tsx";
 import NotificationPanel from "./components/NotificationPanel/NotificationPanel.tsx";
@@ -12,32 +12,74 @@ import useProduct from "./hooks/useProduct.ts";
 function App() {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<IProduct | null>(null);
+  const [editingProduct, setEditingProduct] = useState<IDbProduct | null>(null);
   const [toaster, setToaster] = useState(false);
+  const [toasterMsg, setToasterMsg] = useState<string | undefined>();
 
+  const { loading, saveProduct, products, updateProduct, deleteProduct } =
+    useProduct();
+
+  useEffect(() => {
+    if (toasterMsg) {
+      const timer = setTimeout(() => {
+        setShowDeleteModal(false);
+        setShowModal(false);
+        setToasterMsg(undefined);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [toasterMsg]);
+
+  /* Handle add modal */
   const handleAdd = () => {
     setEditingProduct(null);
     setShowModal(true);
   };
 
-  const handleEdit = (product: IProduct) => {
+  /* Handle edit modal */
+  const handleEdit = (product: IDbProduct) => {
     setEditingProduct(product);
     setShowModal(true);
   };
 
-  const handleDelete = (product: IProduct) => {
+  /* Handle delete modal */
+  const handleDelete = (product: IDbProduct) => {
     setEditingProduct(product);
     setShowDeleteModal(true);
   };
 
-  const { loading, saveProduct, products } = useProduct();
-
-  const handleSave = async (product: IProduct) => {
+  /* Add new product */
+  const handleSave = async (product: IDbProduct) => {
     console.log("product", product);
-    const productId = await saveProduct(product);
-    if (productId) {
+    let result;
+    if (editingProduct) {
+      result = await updateProduct(product);
+      setToasterMsg("Product updated successfully.");
+    } else {
+      result = await saveProduct(product);
+      setToasterMsg("Product created successfully.");
+    }
+
+    console.log("result", result);
+    if (result) {
       setToaster(true);
       setShowModal(false);
+    }
+  };
+
+  /* Delete product */
+  const confirmDelete = async (productId: string) => {
+    if (!productId) {
+      return;
+    }
+
+    const result = await deleteProduct(productId);
+    if (result) {
+      setToasterMsg("Product deleted successfully.");
+      setToaster(true);
+      setTimeout(() => {});
+      setShowDeleteModal(false);
     }
   };
 
@@ -80,19 +122,15 @@ function App() {
             <DeleteModal
               product={editingProduct}
               onClose={() => setShowDeleteModal(false)}
-              onConfirm={() => {
-                // setProducts((prev) =>
-                //   prev.filter((p) => p.productId !== editingProduct.productId),
-                // );
-                // setShowDeleteModal(false);
-              }}
+              onConfirm={() => confirmDelete(editingProduct?.productId)}
+              loading={loading}
             />
           </div>
         </div>
       )}
-      {toaster && (
-        <Toaster message="Product created successfully." type="success" />
-      )}
+      {toaster && toasterMsg ? (
+        <Toaster message={toasterMsg} type="success" />
+      ) : null}
     </div>
   );
 }

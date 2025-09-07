@@ -1,13 +1,14 @@
-import type { IProduct } from "../../utils/types";
+import type { IDbProduct } from "../../utils/types";
 import "./DeleteModal.css";
 
 type Props = {
-  product: IProduct;
+  product: IDbProduct;
   onClose: () => void;
   onConfirm: () => void;
+  loading?: boolean;
 };
 
-const DeleteModal = ({ product, onClose, onConfirm }: Props) => {
+const DeleteModal = ({ product, onClose, onConfirm, loading }: Props) => {
   return (
     <div className="delete-modal-overlay">
       <div className="delete-modal-container">
@@ -19,8 +20,12 @@ const DeleteModal = ({ product, onClose, onConfirm }: Props) => {
           <button onClick={onClose} className="delete-modal-cancel">
             Cancel
           </button>
-          <button onClick={onConfirm} className="delete-modal-delete">
-            Delete
+          <button
+            onClick={onConfirm}
+            className="delete-modal-delete"
+            disabled={loading}
+          >
+            {loading ? <span className="spinner">.</span> : "Delete"}
           </button>
         </div>
       </div>

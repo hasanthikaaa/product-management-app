@@ -14,6 +14,7 @@ const ProductTable = ({ products, onEdit, onDelete }: Props) => {
           <tr>
             <th>Name</th>
             <th>Category</th>
+            <th>Description</th>
             <th>Quantity</th>
             <th>Price</th>
             <th>Actions</th>
@@ -24,6 +25,7 @@ const ProductTable = ({ products, onEdit, onDelete }: Props) => {
             <tr key={p.productId}>
               <td>{p.name}</td>
               <td>{p.category}</td>
+              <td>{p.description}</td>
               <td>{p.quantity}</td>
               <td>${p.price}</td>
               <td>
