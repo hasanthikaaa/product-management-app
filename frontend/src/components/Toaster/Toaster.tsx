@@ -1,27 +1,31 @@
-import { useEffect, useState } from "react";
 import "./Toaster.css";
 
-const Toaster = () => {
-  const [messages, setMessages] = useState<
-    { type: "success" | "error"; text: string }[]
-  >([]);
+interface ToasterProps {
+  message: string;
+  type: "success" | "error";
+}
 
-  useEffect(() => {
-    setTimeout(() => {
-      setMessages([{ type: "success", text: "Product created successfully!" }]);
-    }, 2000);
-  }, []);
+const Toaster = ({ message, type }: ToasterProps) => {
+  // const [messages, setMessages] = useState<
+  //   { type: "success" | "error"; text: string }[]
+  // >([]);
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setMessages([{ type: "success", text: "Product created successfully!" }]);
+  //   }, 2000);
+  // }, []);
 
   return (
     <div className="toaster-container">
-      {messages.map((msg, idx) => (
-        <div
-          key={idx}
-          className={`toaster-message ${msg.type === "success" ? "toaster-success" : "toaster-error"}`}
-        >
-          {msg.text}
-        </div>
-      ))}
+      {/*{messages.map((msg, idx) => (*/}
+      <div
+        key={message}
+        className={`toaster-message ${type === "success" ? "toaster-success" : "toaster-error"}`}
+      >
+        {message}
+      </div>
+      {/*))}*/}
     </div>
   );
 };
