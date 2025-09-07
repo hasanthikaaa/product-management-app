@@ -1,17 +1,29 @@
 .toolbar {
     display: flex;
     gap: 12px;
-    margin-bottom: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
 }
 
-.toolbar button {
-    padding: 8px 16px;
-    border-radius: 8px;
-    color: #fff;
-    font-size: 1rem;
-    cursor: pointer;
+.btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
     border: none;
-    transition: background-color 0.2s;
+    cursor: pointer;
+    color: #fff;
+    transition: transform 0.1s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 .btn-add {
@@ -19,7 +31,7 @@
 }
 
 .btn-add:hover {
-    background-color: #1d4ed8;
+    background-color: #1e40af;
 }
 
 .btn-export {
@@ -35,5 +47,5 @@
 }
 
 .btn-import:hover {
-    background-color: #6b21a8;
+    background-color: #5b21b6;
 }

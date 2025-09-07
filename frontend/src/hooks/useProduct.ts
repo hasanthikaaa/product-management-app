@@ -3,6 +3,7 @@ import type { IDbProduct } from "../utils/types";
 import {
   createProductApi,
   deleteProductApi,
+  importProductsApi,
   listProductApi,
   updateProductApi,
 } from "../services/api.ts";
@@ -92,12 +93,26 @@ const useProduct = () => {
     }
   }, []);
 
+  /* Import product */
+  const importProducts = useCallback(async (formData: FormData) => {
+    try {
+      setLoading(true);
+      await importProductsApi(formData);
+      await listProducts();
+    } catch (error) {
+      console.log("importProducts-error", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   return {
     loading,
     saveProduct,
     updateProduct,
     deleteProduct,
     products,
+    importProducts,
   };
 };
 

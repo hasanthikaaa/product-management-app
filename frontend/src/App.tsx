@@ -16,8 +16,14 @@ function App() {
   const [toaster, setToaster] = useState(false);
   const [toasterMsg, setToasterMsg] = useState<string | undefined>();
 
-  const { loading, saveProduct, products, updateProduct, deleteProduct } =
-    useProduct();
+  const {
+    loading,
+    saveProduct,
+    products,
+    updateProduct,
+    deleteProduct,
+    importProducts,
+  } = useProduct();
 
   useEffect(() => {
     if (toasterMsg) {
@@ -78,16 +84,18 @@ function App() {
     if (result) {
       setToasterMsg("Product deleted successfully.");
       setToaster(true);
-      setTimeout(() => {});
       setShowDeleteModal(false);
     }
   };
 
+  const handleImportProducts = async (formData: FormData) => {
+    await importProducts(formData);
+  };
   return (
     <div className="app-container">
       <h1 className="title">📦 Product Management</h1>
 
-      <Toolbar onAdd={handleAdd} />
+      <Toolbar onAdd={handleAdd} handleImportProducts={handleImportProducts} />
 
       <div className="content">
         <div className="main">

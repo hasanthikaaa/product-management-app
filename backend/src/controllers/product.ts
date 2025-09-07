@@ -5,6 +5,8 @@ import UpdateProduct from "../services/update-product";
 import { IDeleteProductInput, IListProductInput } from "../utils/types";
 import DeleteProduct from "../services/delete-product";
 import ListProducts from "../services/list-products";
+import ExportProducts from "../services/export-products";
+import ImportProduct from "../services/import-products";
 
 /* Create Product */
 export const createProduct = async (req: Request, res: Response) => {
@@ -38,4 +40,15 @@ export const listProducts = async (req: Request, res: Response) => {
   const body = req.body as IListProductInput;
   const product = await new ListProducts().main(body);
   res.json(product);
+};
+
+/* Export Products */
+export const exportProducts = async (req: Request, res: Response) => {
+  await new ExportProducts().main(res);
+};
+
+/* import Products */
+export const importProducts = async (req: Request, res: Response) => {
+  await new ImportProduct().main(req?.file?.path!);
+  res.json("Imported successfully.");
 };

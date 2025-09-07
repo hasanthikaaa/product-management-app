@@ -73,3 +73,44 @@ export const deleteProductApi = async (productId: string): Promise<string> => {
     throw error;
   }
 };
+
+/* Exports product api */
+export const exportsProductsApi = async () => {
+  try {
+    const response = await axios.get(
+      `${configurations.baseUrl}/api/products/export`,
+      {
+        responseType: "blob",
+      },
+    );
+    const blob = new Blob([response.data], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "products.csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  } catch (error) {
+    console.log({ error });
+    throw error;
+  }
+};
+
+/* Import products api */
+export const importProductsApi = async (form: FormData): Promise<string> => {
+  try {
+    const response = await axios.post(
+      `${configurations.baseUrl}/api/products/import`,
+      form,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      },
+    );
+    return response?.data;
+  } catch (error) {
+    console.log({ error });
+    throw error;
+  }
+};
