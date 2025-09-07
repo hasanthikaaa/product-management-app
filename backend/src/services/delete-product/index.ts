@@ -20,7 +20,7 @@ class DeleteProduct {
       const keys = getProductKeys(sellerId, input?.productId);
 
       const params = {
-        TableName: configurations.productTable,
+        TableName: process.env.PRODUCT_TABLE,
         Key: keys,
         ConditionExpression: "attribute_exists(pk) AND attribute_exists(sk)",
       };
@@ -44,7 +44,7 @@ class DeleteProduct {
       const queue = new SQSQueueOperations();
 
       const params = {
-        QueueUrl: configurations.productQueueUrl,
+        QueueUrl: process.env.PRODUCT_QUEUE_URL,
         MessageBody: JSON.stringify({
           ...input,
           sellerId: configurations.sellerId,

@@ -12,7 +12,7 @@ class ListProducts {
     try {
       const db = new DynamodbOperations();
       const params = {
-        TableName: configurations.productTable,
+        TableName: process.env.PRODUCT_TABLE!,
         KeyConditionExpression: "pk=:pk",
         ExpressionAttributeValues: {
           ":pk": getProductTablePK(sellerId),

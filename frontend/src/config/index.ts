@@ -1,3 +1,3 @@
 export const configurations = {
-  baseUrl: import.meta.env.REACT_APP_BASE_URL || "http://localhost:3001",
+  baseUrl: import.meta.env.VITE_BASE_URL,
 };

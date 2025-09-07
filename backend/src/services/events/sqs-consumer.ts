@@ -61,7 +61,7 @@ class SQSConsumer {
   public main(clients?: express.Response[]) {
     try {
       const consumer = Consumer.create({
-        queueUrl: configurations.productQueueUrl,
+        queueUrl: process.env.PRODUCT_QUEUE_URL!,
         handleMessage: async (message) => {
           console.log("Received SQS message:", message.Body);
           if (!message?.Body) return;
@@ -86,7 +86,7 @@ class SQSConsumer {
               break;
           }
           await new SQSQueueOperations().deleteMessage({
-            QueueUrl: configurations.productQueueUrl,
+            QueueUrl: process.env.PRODUCT_QUEUE_URL!,
             ReceiptHandle: message?.ReceiptHandle,
           });
         },

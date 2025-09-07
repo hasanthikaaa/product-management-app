@@ -17,7 +17,7 @@ class CreateProduct {
       const keys = getProductKeys(configurations.sellerId, productId);
 
       const params = {
-        TableName: configurations.productTable,
+        TableName: process.env.PRODUCT_TABLE,
         Item: {
           ...input,
           ...keys,
@@ -40,8 +40,11 @@ class CreateProduct {
       const queue = new SQSQueueOperations();
 
       const params = {
-        QueueUrl: configurations.productQueueUrl,
-        MessageBody: JSON.stringify({ ...input, eventType: EVENT_TYPE.ADD_PRODUCT }),
+        QueueUrl: process.env.PRODUCT_QUEUE_URL,
+        MessageBody: JSON.stringify({
+          ...input,
+          eventType: EVENT_TYPE.ADD_PRODUCT,
+        }),
       };
       console.log({ params });
       await queue.sendMessage(params);

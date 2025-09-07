@@ -11,7 +11,7 @@ class EventDbHelper {
     try {
       const db = new DynamodbOperations();
       const params = {
-        TableName: configurations.analyticsTable,
+        TableName: process.env.ANALYTICS_TABLE,
         Key: {
           sellerId,
         },
@@ -44,7 +44,7 @@ class EventDbHelper {
     try {
       const db = new DynamodbOperations();
       const params = {
-        TableName: configurations.analyticsTable,
+        TableName: process.env.ANALYTICS_TABLE,
         Item: {
           sellerId,
           productCount,

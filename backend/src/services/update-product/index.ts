@@ -51,7 +51,7 @@ class UpdateProduct {
 
       const attributes = this.generateUpdateParams(input);
       const params = {
-        TableName: configurations.productTable,
+        TableName: process.env.PRODUCT_TABLE!,
         Key: keys,
         UpdateExpression: attributes?.updateExpression,
         ExpressionAttributeValues: attributes?.expressionAttributeValues,
@@ -80,7 +80,7 @@ class UpdateProduct {
       const queue = new SQSQueueOperations();
 
       const params = {
-        QueueUrl: configurations.productQueueUrl,
+        QueueUrl: process.env.PRODUCT_QUEUE_URL,
         MessageBody: JSON.stringify({
           ...input,
           eventType: EVENT_TYPE.UPDATE_PRODUCT,
