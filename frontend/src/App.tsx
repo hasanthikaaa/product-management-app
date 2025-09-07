@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { mockProducts } from "./utils/data/mock-data.ts";
-import type { IProduct } from "./utils/types";
+import type { IDbProduct, IProduct } from "./utils/types";
 import ProductTable from "./components/ProductTable/ProductTable.tsx";
 import Toolbar from "./components/Toolbar/ToolBar.tsx";
 import NotificationPanel from "./components/NotificationPanel/NotificationPanel.tsx";
@@ -8,13 +7,15 @@ import ProductModal from "./components/ProductModal/ProductModal.tsx";
 import DeleteModal from "./components/DeleteModal/DeleteModal.tsx";
 import Toaster from "./components/Toaster/Toaster.tsx";
 import "./App.css";
+import useProduct from "./hooks/useProduct.ts";
 
 function App() {
-  const [products, setProducts] = useState<IProduct[]>(mockProducts);
+  const [products, setProducts] = useState<IDbProduct[]>([]);
 
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<IProduct | null>(null);
+  const [toaster, setToaster] = useState(false);
 
   const handleAdd = () => {
     setEditingProduct(null);
@@ -29,6 +30,18 @@ function App() {
   const handleDelete = (product: IProduct) => {
     setEditingProduct(product);
     setShowDeleteModal(true);
+  };
+
+  const { loading, saveProduct } = useProduct();
+
+  const handleSave = async (product: IProduct) => {
+    console.log("product", product);
+    const productId = await saveProduct(product);
+    if (productId) {
+      setToaster(true);
+      setShowModal(false);
+      setProducts([]);
+    }
   };
 
   return (
@@ -57,17 +70,8 @@ function App() {
             <ProductModal
               product={editingProduct}
               onClose={() => setShowModal(false)}
-              onSave={(p) => {
-                setProducts((prev) => {
-                  if (editingProduct) {
-                    return prev.map((item) =>
-                      item.productId === p.productId ? p : item,
-                    );
-                  }
-                  return [...prev, { ...p, productId: `p${Date.now()}` }];
-                });
-                setShowModal(false);
-              }}
+              onSave={(p) => handleSave(p)}
+              loading={loading}
             />
           </div>
         </div>
@@ -80,17 +84,18 @@ function App() {
               product={editingProduct}
               onClose={() => setShowDeleteModal(false)}
               onConfirm={() => {
-                setProducts((prev) =>
-                  prev.filter((p) => p.productId !== editingProduct.productId),
-                );
-                setShowDeleteModal(false);
+                // setProducts((prev) =>
+                //   prev.filter((p) => p.productId !== editingProduct.productId),
+                // );
+                // setShowDeleteModal(false);
               }}
             />
           </div>
         </div>
       )}
-
-      <Toaster />
+      {toaster && (
+        <Toaster message="Product created successfully." type="success" />
+      )}
     </div>
   );
 }
