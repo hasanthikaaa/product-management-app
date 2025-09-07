@@ -2,6 +2,8 @@ import CreateProduct from "../services/create-product";
 import { IProduct } from "../models/product";
 import { Request, Response } from "express";
 import UpdateProduct from "../services/update-product";
+import { IDeleteProductInput } from "../utils/types";
+import DeleteProduct from "../services/delete-product";
 
 /* Create Product */
 export const createProduct = async (req: Request, res: Response) => {
@@ -18,5 +20,14 @@ export const updateProduct = async (req: Request, res: Response) => {
     productId,
   };
   const product = await new UpdateProduct().main(body);
+  res.json(product);
+};
+
+/* Delete Product */
+export const deleteProduct = async (req: Request, res: Response) => {
+  const productId = req.params.productId;
+  const categoryId = req.params?.categoryId!;
+  const body = { productId, categoryId } as IDeleteProductInput;
+  const product = await new DeleteProduct().main(body);
   res.json(product);
 };

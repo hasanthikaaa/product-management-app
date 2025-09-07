@@ -23,3 +23,10 @@ export interface ISendMessageUpdateInput {
   sellerId: string;
   attributes: Record<string, string | number>;
 }
+
+export interface IDeleteProductInput {
+  productId: string;
+  categoryId: string;
+}
+
+export interface ISendMessageDeleteInput extends IDeleteProductInput {}
