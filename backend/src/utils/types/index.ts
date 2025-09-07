@@ -19,9 +19,8 @@ export interface IUpdateProductInput extends IProduct {
 }
 
 export interface ISendMessageUpdateInput {
-  productId: string;
   sellerId: string;
-  attributes: Record<string, string | number>;
+  attributes: IUpdateProductInput;
 }
 
 export interface IDeleteProductInput {
@@ -59,3 +58,10 @@ export type IConsumerPayload =
   | ISQSDeleteProductInput
   | ISQSUpdateProductInput
   | ISQSAddProductInput;
+
+export interface ILowStockInput {
+  sellerId: string;
+  productId: string;
+  quantity: number;
+  productName: string;
+}

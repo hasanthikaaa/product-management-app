@@ -10,6 +10,8 @@ import {
 } from "../../utils/types";
 import EventDbHelper from "./helpers/db";
 import SQSQueueOperations from "../../utils/queue";
+import LowStock from "./helpers/low-stock";
+import express from "express";
 
 class SQSConsumer {
   /* Add product event */
@@ -35,23 +37,33 @@ class SQSConsumer {
   }
 
   /* Update product event */
-  private handleUpdateProductEvent(input: ISQSUpdateProductInput) {
-    console.log({ input });
+  private async handleUpdateProductEvent(
+    input: ISQSUpdateProductInput,
+    clients: express.Response[],
+  ) {
+    console.log("handleUpdateProductEvent", { input });
     try {
-      /* Calculate product quantity and notify user */
+      await new LowStock().main(
+        {
+          quantity: input?.attributes?.quantity,
+          productId: input?.attributes?.productId,
+          sellerId: input?.sellerId,
+          productName: input?.attributes?.name,
+        },
+        clients,
+      );
       return;
     } catch (error) {
       console.error("handleUpdateProductEvent-ERROR", error);
     }
   }
 
-  public main() {
+  public main(clients?: express.Response[]) {
     try {
       const consumer = Consumer.create({
         queueUrl: configurations.productQueueUrl,
         handleMessage: async (message) => {
           console.log("Received SQS message:", message.Body);
-          console.log("Received SQS message:", message);
           if (!message?.Body) return;
 
           const payload = JSON.parse(message?.Body) as IConsumerPayload;
@@ -60,7 +72,12 @@ class SQSConsumer {
               await this.handleAddProductEvent(payload as ISQSAddProductInput);
               break;
             case EVENT_TYPE.UPDATE_PRODUCT:
-              this.handleUpdateProductEvent(payload as ISQSUpdateProductInput);
+              if (clients?.length) {
+                await this.handleUpdateProductEvent(
+                  payload as ISQSUpdateProductInput,
+                  clients,
+                );
+              }
               break;
             case EVENT_TYPE.DELETE_PRODUCT:
               await this.handleDeleteProductEvent(

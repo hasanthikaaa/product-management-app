@@ -104,8 +104,7 @@ class UpdateProduct {
       }
 
       await this.sendMessageToQueue({
-        attributes: updatedAttributes,
-        productId: input.productId,
+        attributes: input,
         sellerId: configurations.sellerId,
       });
 
