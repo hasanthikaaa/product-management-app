@@ -3,7 +3,7 @@ import { getProductKeys } from "../../models/product/schema";
 import { configurations } from "../../config";
 import { IProduct } from "../../models/product";
 import DynamodbOperations from "../../utils/db";
-import { ISendMessageInput } from "../../utils/types";
+import { EVENT_TYPE, ISendMessageInput } from "../../utils/types";
 import SQSQueueOperations from "../../utils/queue";
 import { messages } from "../../utils/messages";
 
@@ -41,7 +41,7 @@ class CreateProduct {
 
       const params = {
         QueueUrl: configurations.productQueueUrl,
-        MessageBody: JSON.stringify(input),
+        MessageBody: JSON.stringify({ ...input, eventType: EVENT_TYPE.ADD_PRODUCT }),
       };
       console.log({ params });
       await queue.sendMessage(params);

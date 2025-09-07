@@ -1,5 +1,6 @@
 import { ReturnValue } from "@aws-sdk/client-dynamodb";
 import {
+  EVENT_TYPE,
   ISendMessageUpdateInput,
   IUpdateProductInput,
 } from "../../utils/types";
@@ -80,7 +81,10 @@ class UpdateProduct {
 
       const params = {
         QueueUrl: configurations.productQueueUrl,
-        MessageBody: JSON.stringify(input),
+        MessageBody: JSON.stringify({
+          ...input,
+          eventType: EVENT_TYPE.UPDATE_PRODUCT,
+        }),
       };
       console.log({ params });
       await queue.sendMessage(params);

@@ -1,5 +1,6 @@
 import { configurations } from "../../config";
 import {
+  EVENT_TYPE,
   IDeleteProductInput,
   ISendMessageDeleteInput,
 } from "../../utils/types";
@@ -44,7 +45,11 @@ class DeleteProduct {
 
       const params = {
         QueueUrl: configurations.productQueueUrl,
-        MessageBody: JSON.stringify(input),
+        MessageBody: JSON.stringify({
+          ...input,
+          sellerId: configurations.sellerId,
+          eventType: EVENT_TYPE.DELETE_PRODUCT,
+        }),
       };
       console.log({ params });
       await queue.sendMessage(params);
