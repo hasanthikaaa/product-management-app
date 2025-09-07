@@ -30,3 +30,7 @@ export interface IDeleteProductInput {
 }
 
 export interface ISendMessageDeleteInput extends IDeleteProductInput {}
+
+export interface IListProductInput {
+  category?: ICategory;
+}
